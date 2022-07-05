@@ -1,0 +1,51 @@
+server:
+  port: 8087
+spring:
+  application:
+    name: consul-consumer
+  cloud:
+    consul:
+      host: localhost
+      port: 8500
+      discovery:
+        service-name: ${spring.application.name}
+# 全局超时重试配置
+ribbon:
+  ConnectTimeout: 1000
+  ReadTimeout: 1000
+  OkToRetriesOnAllOperations: false
+  MaxAutoRetriesNextServer: 1
+  MaxAutoRetries: 1
+# 局部配置
+#consul-producer: # 服务名
+#  ribbon:
+#    ConnectTimeout: 1000
+#    ReadTimeout: 5000
+#    OkToRetriesOnAllOperations: false
+#    MaxAutoRetriesNextServer: 1
+#    MaxAutoRetries: 1
+#feign:
+#  client:
+#    config:
+#      default: # 全局
+#        connectTimeout: 1000
+#        readTimeout: 5000
+#      consul-producer: #局部
+#        connectTimeout: 1000
+#        readTimeout: 5000
+
+logging:
+  level:
+    com.hacah.feignServer.ProducerFeign: debug
+
+
+# 配置压缩
+feign:
+  compression:
+    request:
+      enabled: true
+      mime-types: text/xml
+      min-request-size: 1024
+    response:
+      enabled: true
+      useGzipDecoder: true
